@@ -390,26 +390,46 @@ ottenuto calcolandolo sul grafo originale.
 
 \section{Sperimentazione numerica}
 
+Le simulazioni sono state eseguite in ambiente GNU Octave 9.4.0 su un PC laptop equipaggiato con 16 GB di RAM e
+processore Intel i7-13620H con un clock rate di 2.40 GHz. Tutti i codici sono inclusi inoltre in \cite{hearotCode}.
+
 Prima di implementare operativamente il calcolo del vettore di Katz mediante il grafo complementare, si è innanzitutto generato
-due grafi densi con il seguente codice:
+due grafi densi con \texttt{generate\_matrices.m}:
 
-\begin{lstlisting}[style=Matlab-editor]
-    n = 4000;
-    density = 0.8;
+\begin{figure}[h]
+    \centering
+    \begin{lstlisting}[style=Matlab-editor, frame=single, numbers=left]
+n = 4000;
+density = 0.97;
 
-    % si assicura la densita' di A e B
-    A = double(rand(n) < density);
-    B = double(rand(n) < density);
+% si assicura la densita' di A e B
+Am = double(rand(n) < density);
+Bm = double(rand(n) < density);
 
-    % forza la simmetria ed elimina i loop su A
-    A = triu(A, 1);
-    A = A + A';
+% forza la simmetria ed elimina i loop su A
+Am = triu(Am, 1);
+Am = Am + Am';
 
-    % forza la simmetria, ma non elimina i loop su B
-    D = diag(diag(B));
-    B = triu(B, 1);
-    B = B + B' + D;
-\end{lstlisting}
+% forza la simmetria, ma non elimina i loop su B
+Dm = diag(diag(Bm));
+Bm = triu(Bm, 1);
+Bm = Bm + Bm' + Dm;
+
+A = struct();
+B = struct();
+
+A.matrix = Am;
+B.matrix = Am;
+
+A.rho = svds(Am, 1);
+B.rho = svds(Bm, 1);
+
+save(''A.mat'', ''A'')
+save(''B.mat'', ''B'')
+    \end{lstlisting}
+    \vskip -0.1in
+    \caption{\texttt{generate\_matrices.m}}
+\end{figure}
 
 \printbibliography
 
