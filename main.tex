@@ -14,6 +14,8 @@
 \usepackage{leftindex}
 \usepackage{float}
 
+\usepackage{matlab-prettifier}
+
 %% Since I want "Input" and "Output" in the algorithm, I will need
 \usepackage{algorithm}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
@@ -385,6 +387,29 @@ ottenuto calcolandolo sul grafo originale.
     La dimostrazione segue pressoché gli stessi passaggi della dimostrazione del Teorema \ref{th:compl_1} definendo
     $A^C = \evec \evec^T - (A+I)$ al posto di $A^C = \evec \evec^T - A$.
 \end{proof}
+
+\section{Sperimentazione numerica}
+
+Prima di implementare operativamente il calcolo del vettore di Katz mediante il grafo complementare, si è innanzitutto generato
+due grafi densi con il seguente codice:
+
+\begin{lstlisting}[style=Matlab-editor]
+    n = 4000;
+    density = 0.8;
+
+    % si assicura la densita' di A e B
+    A = double(rand(n) < density);
+    B = double(rand(n) < density);
+
+    % forza la simmetria ed elimina i loop su A
+    A = triu(A, 1);
+    A = A + A';
+
+    % forza la simmetria, ma non elimina i loop su B
+    D = diag(diag(B));
+    B = triu(B, 1);
+    B = B + B' + D;
+\end{lstlisting}
 
 \printbibliography
 
