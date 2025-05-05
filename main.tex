@@ -69,7 +69,7 @@
 
 \addbibresource{biblio.bib}
 
-\title{Implementazione di algoritmi per il calcolo efficiente del ranking dato dalla centralità di Katz in grafi molto densi}
+\title{Implementazione di un algoritmo per il calcolo efficiente del ranking dato dalla centralità di Katz in grafi molto densi}
 \author{Gabriel Antonio Videtta (\textsc{654839})}
 
 \begin{document}
@@ -77,9 +77,8 @@
 
 \begin{abstract}
 In questa relazione presentiamo la teoria e gli algoritmi
-proposti da \cite{katz2024} per calcolare efficientemente il ranking dovuto all'indice
-di centralità di Katz in grafi, eventualmente con pesi non negativi, le cui matrici di adiacenza
-hanno almeno $\OO(n)$ elementi non nulli, sfruttando la nozione di ``grafo complementare''
+proposti da \cite{katz2024} per calcolare efficientemente il ranking indotto dal
+vettore di Katz in grafi molto densi sfruttando la nozione di ``grafo complementare''
 e dando significato al calcolo di indici di centralità di Katz con parametri
 negativi.
 \end{abstract}
@@ -394,33 +393,37 @@ Le simulazioni sono state eseguite in ambiente MATLAB R2024b su un PC desktop eq
 processore Intel i7-10700K con un clock rate di 3.80 GHz. Tutti i codici sono inclusi anche in \cite{hearotCode}.
 
 Prima di implementare operativamente il calcolo del vettore di Katz mediante il grafo complementare, si è innanzitutto generato
-un grafo denso con \texttt{generate\_matrices.m}:
+un grafo denso con \texttt{generate\_dense\_graph.m}:
 
 \begin{figure}[h]
     \centering
     \begin{lstlisting}[style=Matlab-editor, frame=single, numbers=left]
-n = 15000;
-density = 0.97;
-
-% garantisce la densita' di A
-Am = double(rand(n) < density);
-
-% forza la simmetria ed elimina i loop su A
-Am = triu(Am, 1);
-Am = Am + Am';
-
-A = struct();
-
-A.matrix = Am;
-
-% calcola il raggio spettrale per riutilizzarlo
-% nel parametro di Katz
-A.rho = svds(Am, 1);
-
-save('A.mat', 'A', '-v7.3');        
+function generate_dense_graph(filename, n, density)
+    % garantisce che la densita' di A
+    % sia circa quella stabilita in
+    % `density`
+    Am = double(rand(n) < density);
+    
+    % forza la simmetria ed elimina i loop su A
+    Am = triu(Am, 1);
+    Am = Am + Am';
+    
+    A = struct();
+    
+    A.matrix = Am;
+    
+    % calcola il raggio spettrale per riutilizzarlo
+    % nel parametro di Katz
+    A.rho = svds(Am, 1);
+    
+    % calcola la densita' di A
+    A.density = nnz(Am) / numel(Am);
+    
+    save(filename, 'A', '-v7.3');
+end            
     \end{lstlisting}
     \vskip -0.1in
-    \caption{Contenuto del file \texttt{generate\_matrices.m}}
+    \caption{Contenuto del file \texttt{generate\_dense\_graph.m}.}
 \end{figure}
 
 \printbibliography
