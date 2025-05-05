@@ -247,7 +247,7 @@ Equivalentemente, $\xvec$ è l'unica soluzione del sistema lineare $(I-\alpha A)
 
 In questa sezione della relazione, presentiamo il concetto di grafo
 complementare, eventualmente senza lacci, e tramite i Teoremi
-\textbf{\#TODO} e \textbf{\#TODO}, preceduti dai preziosi Lemmi
+\ref{th:compl_1} e \ref{th:compl_2}, preceduti dai preziosi Lemmi
 \ref{lemma:matrix_determinant_lemma} e \ref{lemma:sherman},
 troviamo una corrispondenza che ci permette di calcolare il vettore di
 Katz sul grafo complementare, ottenendo lo stesso ranking che avremmo
@@ -326,6 +326,7 @@ ottenuto calcolandolo sul grafo originale.
 \end{proof}
 
 \begin{theorem}
+    \label{th:compl_1}
     Sia $G$ un grafo. Se $\alpha \in (0, \nicefrac{1}{\rho(A)})$, allora il vettore di Katz di parametro $-\alpha$ calcolato sul complementare (con lacci) $G^C$
     induce lo stesso ranking del vettore di Katz di parametro $\alpha$ calcolato su $G$.
 \end{theorem}
@@ -336,7 +337,7 @@ ottenuto calcolandolo sul grafo originale.
     Pertanto, per il Lemma \ref{lemma:matrix_determinant_lemma},
     $I + \alpha A^C$ è invertibile se e solo se
     \[ 1 + \alpha \evec^T (I - \alpha A)^{-1} \evec \neq 0. \]
-    Dal momento che $\alpha > 0$, $\alpha \evec^T (I - \alpha A)^{-1} \evec$ è certamente positivo, e dunque $I + \alpha A^C$ è invertibile.
+    Dal momento che $\alpha > 0$, il termine $\alpha \evec^T (I - \alpha A)^{-1} \evec$ è certamente positivo, e dunque $I + \alpha A^C$ è invertibile.
 
     Sia $A$ la matrice di adiacenza di $G$. Allora la matrice di adiacenza
     $A^C$ di $G^C$ è tale per cui $A^C = \evec \evec^T - A$. Si osserva
@@ -346,14 +347,44 @@ ottenuto calcolandolo sul grafo originale.
         &=& (I - \alpha (\evec \evec^T - A^C))^{-1} \nonumber \\
         &=& (I+\alpha A^C-\alpha \evec \evec^T)^{-1} \nonumber \\
         &=& (I + \alpha A^C)^{-1} - \frac{(I + \alpha A^C)^{-1} (-\alpha \evec \evec^T) (I + \alpha A^C)^{-1}}{1 + \evec^T (I + \alpha A^C)^{-1} (-\alpha \evec)} \nonumber \\
-        &=& (I + \alpha A^C)^{-1} + \alpha \frac{(I + \alpha A^C)^{-1} \evec \evec^T (I + \alpha A^C)^{-1}}{1 - \alpha \evec^T (I + \alpha A^C)^{-1} \evec}. \nonumber
+        &=& (I + \alpha A^C)^{-1} + \alpha \frac{(I + \alpha A^C)^{-1} \evec \evec^T (I + \alpha A^C)^{-1}}{1 - \alpha \evec^T (I + \alpha A^C)^{-1} \evec}. \label{eq:first_step}
     \end{eqnarray}
+
+    Sia $\gamma$ definito come
+    \[
+        \gamma = \evec^T (I + \alpha A^C)^{-1} \evec.
+    \]
+
+    Allora, grazie all'eq.~\eqref{eq:first_step}, il vettore di Katz di $A$ si riscrive come
+    \begin{equation}
+        \label{eq:second_step}
+        (I-\alpha A)^{-1} \evec = \frac{1}{1 - \alpha \gamma} \, (I + \alpha A^C)^{-1} \evec.
+    \end{equation}
+
+    Dall'eq.~\eqref{eq:second_step} si ricava inoltre che
+    \begin{equation} \label{eq:third_step}
+        (I + \alpha A^C) (I-\alpha A)^{-1} \evec = \frac{1}{1 - \alpha \gamma} \, \evec.
+    \end{equation}
+
+    Poiché il termine $(I + \alpha A^C) (I-\alpha A)^{-1} \evec$ dell'eq.~\eqref{eq:third_step} è non negativo, allora
+    anche il termine a destra è non negativo, da cui
+    $1 - \alpha \gamma > 0$, e dunque $\alpha \gamma < 1$.
+
+    Pertanto $(I + \alpha A^C)^{-1} \evec$, che è proporzionale a $(I-\alpha A)^{-1} \evec$ per un fattore positivo per
+    l'eq.~\eqref{eq:second_step}, è un vettore non negativo ed induce correttamente un ranking dei nodi equivalente
+    a quello generato dal vettore di Katz di $A$.
 \end{proof}
 
 \begin{theorem}
+    \label{th:compl_2}
     Sia $G$ un grafo. Se $\alpha \in (0, \nicefrac{1}{\rho(A)})$, allora il vettore di Katz di parametro $-\frac{\alpha}{1+\alpha}$ calcolato sul complementare senza lacci $G^C$
     induce lo stesso ranking del vettore di Katz di parametro $\alpha$ calcolato su $G$.
 \end{theorem}
+
+\begin{proof}
+    La dimostrazione segue pressoché gli stessi passaggi della dimostrazione del Teorema \ref{th:compl_1} definendo
+    $A^C = \evec \evec^T - (A+I)$ al posto di $A^C = \evec \evec^T - A$.
+\end{proof}
 
 \printbibliography
 
