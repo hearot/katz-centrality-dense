@@ -390,45 +390,37 @@ ottenuto calcolandolo sul grafo originale.
 
 \section{Sperimentazione numerica}
 
-Le simulazioni sono state eseguite in ambiente GNU Octave 9.4.0 su un PC laptop equipaggiato con 16 GB di RAM e
-processore Intel i7-13620H con un clock rate di 2.40 GHz. Tutti i codici sono inclusi inoltre in \cite{hearotCode}.
+Le simulazioni sono state eseguite in ambiente MATLAB R2024b su un PC desktop equipaggiato con 32 GB di RAM e
+processore Intel i7-10700K con un clock rate di 3.80 GHz. Tutti i codici sono inclusi anche in \cite{hearotCode}.
 
 Prima di implementare operativamente il calcolo del vettore di Katz mediante il grafo complementare, si è innanzitutto generato
-due grafi densi con \texttt{generate\_matrices.m}:
+un grafo denso con \texttt{generate\_matrices.m}:
 
 \begin{figure}[h]
     \centering
     \begin{lstlisting}[style=Matlab-editor, frame=single, numbers=left]
-n = 4000;
+n = 15000;
 density = 0.97;
 
-% si assicura la densita' di A e B
+% garantisce la densita' di A
 Am = double(rand(n) < density);
-Bm = double(rand(n) < density);
 
 % forza la simmetria ed elimina i loop su A
 Am = triu(Am, 1);
 Am = Am + Am';
 
-% forza la simmetria, ma non elimina i loop su B
-Dm = diag(diag(Bm));
-Bm = triu(Bm, 1);
-Bm = Bm + Bm' + Dm;
-
 A = struct();
-B = struct();
 
 A.matrix = Am;
-B.matrix = Am;
 
+% calcola il raggio spettrale per riutilizzarlo
+% nel parametro di Katz
 A.rho = svds(Am, 1);
-B.rho = svds(Bm, 1);
 
-save(''A.mat'', ''A'')
-save(''B.mat'', ''B'')
+save('A.mat', 'A', '-v7.3');        
     \end{lstlisting}
     \vskip -0.1in
-    \caption{\texttt{generate\_matrices.m}}
+    \caption{Contenuto del file \texttt{generate\_matrices.m}}
 \end{figure}
 
 \printbibliography
