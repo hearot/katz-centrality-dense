@@ -1,10 +1,10 @@
-% load("94.mat")
+% matrix94 = load("94.mat");
 % A = matrix94.A;
 
-% load("98.mat")
+% matrix98 = load("98.mat");
 % A = matrix98.A;
 
-load("995.mat")
+matrix995 = load("995.mat");
 A = matrix995.A;
 
 t1 = 0;
