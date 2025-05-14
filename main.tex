@@ -254,6 +254,30 @@ Equivalentemente, $\xvec$ è l'unica soluzione del sistema lineare $(I-\alpha A)
     e pertanto $\rho(A) \geq \frac{4}{3} > 1$.
 \end{proof}
 
+\begin{remark}
+    Consideriamo il caso non comune in cui un grafo semplice non orientato $G$ non ha
+    un nodo di grado almeno $2$.
+    
+    Allora $A^k = A$ per ogni $k$ dispari: per il Lemma \ref{lemma:numero_cammini},
+    $A^k$ conta alla posizione $(i, j)$ il numero di cammini da $i$ a $j$ di lunghezza $k$; ma poiché
+    i nodi di $G$ hanno tutti al più grado $1$, i cammini di lunghezza dispari sono solo quelli che vanno da un
+    nodo nell'unico nodo adiacente, da cui $A^k = A$. Pertanto vale che
+    \begin{equation}
+        \label{eq:bound_raggio_spettrale}
+        \rho(A) = \lim_{k \to \infty} \lVert A^k \rVert_2^{\nicefrac{1}{k}} \leq
+        \lim_{k \to \infty} \lVert A \rVert_2^{\nicefrac{1}{k}} = 1
+    \end{equation}
+
+    Ci sono allora soltanto due possibilità per $\rho(A)$:
+    \begin{enumerate}
+        \item Se $G$ non ha nemmeno nodi di grado $1$, $G$ è il grafo vuoto ed è tale per cui $\rho(A) = 0$.
+        \item Se $G$ ha un almeno un nodo di grado $1$, la matrice di adiacenza $A$ ha almeno una colonna $\avec_j$ tale
+            per cui $\lVert \avec_j \rVert_2 \geq 1$, da cui $\lVert A \rVert_2 = \rho(A) \geq 1$, dove si è usato che per le
+            matrice hermitiane la norma $2$ e il raggio spettrale coincidono. Combinando quest'ultima disuguaglianza  
+            con quella dell'eq. \eqref{eq:bound_raggio_spettrale}, si ottiene che $\rho(A)$ è esattamente $1$.
+    \end{enumerate}
+\end{remark}
+
 \section{Grafo complementare e vettore di Katz}
 
 In questa sezione della relazione, presentiamo il concetto di grafo
