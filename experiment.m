@@ -4,8 +4,11 @@
 % matrix98 = load("98.mat");
 % A = matrix98.A;
 
-matrix995 = load("995.mat");
-A = matrix995.A;
+% matrix995 = load("995.mat");
+% A = matrix995.A;
+
+matrixSP = load("sp_500_2022_2023.mat");
+A = matrixSP.A;
 
 t1 = 0;
 it1 = 0;
