@@ -7,8 +7,11 @@
 % matrix995 = load("995.mat");
 % A = matrix995.A;
 
-matrixSP = load("sp_500_2022_2023.mat");
-A = matrixSP.A;
+% matrixSP = load("sp_500_2022_2023.mat");
+% A = matrixSP.A;
+
+matrixSP2019 = load("sp_500_2019_2020.mat");
+A = matrixSP2019.A;
 
 t1 = 0;
 it1 = 0;

@@ -426,11 +426,12 @@ ottenuto calcolandolo sul grafo originale.
 Le simulazioni sono state eseguite in ambiente MATLAB R2024b su un PC desktop equipaggiato con 32 GB di RAM e
 processore Intel i7-10700K con un clock rate di 3.80 GHz. Tutti i codici sono inclusi anche in \cite{hearotCode}. \medskip
 
-Oltre che su tre casi artificiali, la sperimentazione è stata condotta anche su un caso reale,
-utilizzando il grafo \texttt{sp\_500\_2022\_2023} \cite{hearotCode},
-che rappresenta la matrice di correlazione dei rendimenti degli stock dell'S\&P 500 nel periodo
-compreso tra il 2022 e il 2023, limitata a un threshold di $0.05$. Le principali proprietà di
-questo grafo sono illustrate nella Tabella \ref{tab:prop_sp} e nella Figura \ref{fig:spy_sp}.
+Oltre che su tre casi artificiali, la sperimentazione è stata condotta anche su due casi reali,
+utilizzando i grafi \texttt{sp\_500\_2022\_2023} e \texttt{sp\_500\_2019\_2020} \cite{hearotCode},
+che rappresentano rispettivamente le matrici di correlazione dei rendimenti degli stock dell'S\&P 500 nel periodo
+compreso tra il 2022 e il 2023 e nel periodo compreso tra il 2019 e il 2020, con la prima limitata a un threshold
+di $0.2$ e la seconda a un threshold di $0.05$. Le principali proprietà di
+questi grafi sono illustrate nella Tabella \ref{tab:prop_sp} e nella Figure \ref{fig:spy_sp} e \ref{fig:spy_sp_2019}.
 
 \begin{table}[H]
     \centering
@@ -442,9 +443,11 @@ questo grafo sono illustrate nella Tabella \ref{tab:prop_sp} e nella Figura \ref
         \hline
         \texttt{sp\_500\_2022\_2023} & $259$ & $16564$ & $\approx 458.07$                  \\
         \hline
+        \texttt{sp\_500\_2019\_2020} & $323$ & $23762$ & $\approx 435.63$                  \\
+        \hline
     \end{tabular}
 
-    \caption{Proprietà essenziali delle matrice di adiacenza di \texttt{sp\_500\_2022\_2023} di taglia $n = 487$: rango ($\rk(\cdot)$), numero di elementi nulli ($n^2 - \nnz(\cdot)$) e raggio spettrale ($\rho(\cdot)$).}
+    \caption{Proprietà essenziali delle matrici di adiacenza di \texttt{sp\_500\_2022\_2023} (taglia $n = 487$) e \texttt{sp\_500\_2019\_2020} (taglia $n = 487$): rango ($\rk(\cdot)$), numero di elementi nulli ($n^2 - \nnz(\cdot)$) e raggio spettrale ($\rho(\cdot)$).}
 \end{table}
 
 \begin{figure}[H]
@@ -454,6 +457,15 @@ questo grafo sono illustrate nella Tabella \ref{tab:prop_sp} e nella Figura \ref
     del complementare (e quindi quelli nulli della matrice di adiacenza). Per semplicità e chiarezza è visibile solo il minore principale dettato dalle prime $100$ colonne e dalle
     prime $100$ righe.}
     \label{fig:spy_sp}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/sp2019_spy.png}
+    \caption{Sparsità del complementare della matrice di adiacenza del grafo \texttt{sp\_500\_2019\_2020} di densità $90\%$. In blu sono indicati gli elementi non nulli
+    del complementare (e quindi quelli nulli della matrice di adiacenza). Per semplicità e chiarezza è visibile solo il minore principale dettato dalle prime $100$ colonne e dalle
+    prime $100$ righe.}
+    \label{fig:spy_sp_2019}
 \end{figure}
 
 \subsection{Generazione dei grafi artificiali}
@@ -595,7 +607,8 @@ end
 \subsection{Esperimento sui grafi generati e analisi dei risultati}
 
 Infine si sono eseguite tutte e tre le funzioni presentate per calcolare il ranking di Katz sulle matrici $A_{94}$, $A_{98}$ e
-$A_{99.5}$; oltre che sulla matrice di adiacenza di \texttt{sp\_500\_2022\_2023}. Si è scelta una tolleranza \texttt{tol} pari
+$A_{99.5}$; oltre che sulle matrici di adiacenza di \texttt{sp\_500\_2022\_2023} e \texttt{sp\_500\_2019\_2020}.
+Si è scelta una tolleranza \texttt{tol} pari
 a $10^{-8}$ e un numero massimo di iterazioni \texttt{maxit} pari a
 $1000$. I tempi e i numeri delle iterazioni dell'esperimento (su una media di $30$ esecuzioni per ogni funzione) è
 consultabile sulla Tabella \ref{tab:results}. Il codice con cui si è eseguito l'esperimento è consultabile al nome di \texttt{experiment.m}
@@ -620,10 +633,12 @@ su \cite{hearotCode}.
             \hline
             \texttt{sp\_500\_2022\_2023} & $7$ & $\approx 1.34 \cdot \mathbf{10^{-3}}$ & $6$ & $\approx 3.11 \cdot \mathbf{10^{-4}}$ & $6$ & $\approx 2.33 \cdot \mathbf{10^{-4}}$ \\
             \hline
+            \texttt{sp\_500\_2019\_2020} & $7$ & $\approx 1.03 \cdot \mathbf{10^{-3}}$ & $6$ & $\approx 3.18 \cdot \mathbf{10^{-4}}$ & $6$ & $\approx 2.99 \cdot \mathbf{10^{-4}}$ \\
+            \hline
         \end{tabular}
     }
 
-    \caption{Numero di iterazioni e tempi di esecuzione per calcolare iterativamente il ranking di Katz su $A_{94}$, $A_{98}$, $A_{99.5}$ e \texttt{sp\_500\_2022\_2023} con le funzioni dei Codici \ref{code:katz_classic},
+    \caption{Numero di iterazioni e tempi di esecuzione per calcolare iterativamente il ranking di Katz su $A_{94}$, $A_{98}$, $A_{99.5}$, \texttt{sp\_500\_2022\_2023} e \texttt{sp\_500\_2019\_2020} con le funzioni dei Codici \ref{code:katz_classic},
     \ref{code:katz_complement} e \ref{code:katz_complement_no_loops} con tolleranza \texttt{tol} pari a $10^{-8}$ e numero massimo di iterazioni pari
     a $1000$.}
     \label{tab:results}
